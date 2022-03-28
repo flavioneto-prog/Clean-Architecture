@@ -31,6 +31,7 @@ namespace CleanArchitecture.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CleanArchitecture.API", Version = "v1" });
+                c.EnableAnnotations();
             });
         }
 

@@ -19,22 +19,22 @@ namespace CleanArchitecture.Application.Services
 
         public UserResponse Add(AddUserRequest userInputModel)
         {
-            var teste = _userRepository.Add(userInputModel.DataNascimento, userInputModel.Email, userInputModel.Nome, userInputModel.Senha, userInputModel.Sexo);
-            return new UserResponse(teste.UsuarioId, teste.DataNascimento, teste.Email, teste.Nome, teste.Sexo);
+            var user = _userRepository.Add(userInputModel.DataNascimento, userInputModel.Email, userInputModel.Nome, userInputModel.Senha, userInputModel.Sexo);
+            return new UserResponse(user.UsuarioId, user.DataNascimento, user.Email, user.Nome, user.Sexo);
         }
         public IEnumerable<UserResponse> GetAllUsers()
         {
             var users = _userRepository.GetAllUsers();
 
-            var body = new List<UserResponse>();
+            var listUsers = new List<UserResponse>();
 
             if (users.Any())
             {
                 foreach (var item in users)
                 {
-                    body.Add(new UserResponse(item.UsuarioId, item.DataNascimento, item.Email, item.Nome, item.Sexo));
+                    listUsers.Add(new UserResponse(item.UsuarioId, item.DataNascimento, item.Email, item.Nome, item.Sexo));
                 }
-                return body;
+                return listUsers;
             }
             else
                 return null;
@@ -58,7 +58,7 @@ namespace CleanArchitecture.Application.Services
                 return new UserResponse(userUpdate.UsuarioId, userUpdate.DataNascimento, userUpdate.Email, userUpdate.Nome, userUpdate.Sexo);
             }
             else
-                throw new Exception("Usuário não encontrado.");
+                throw new Exception("Usuário não encontrado com o dado informado.");
         }
         public void DeleteById(long id)
         {
@@ -69,7 +69,7 @@ namespace CleanArchitecture.Application.Services
                 _userRepository.DeleteById(id);
             }
             else
-                throw new Exception("Teste");
+                throw new Exception("Usuário não encontrado com o dado informado.");
         }
     }
 }

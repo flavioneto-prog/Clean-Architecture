@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Core.Entities;
 using CleanArchitecture.Core.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,14 @@ namespace CleanArchitecture.Infrastructure.Persistence.Repositories
 
         public Usuario Add(DateTime dataNascimento, string email, string nome, string senha, char sexo)
         {
-            var user = new Usuario { DataNascimento = dataNascimento, Email = email, Nome = nome, Senha = senha, Sexo = sexo };
+            var user = new Usuario
+            {
+                DataNascimento = dataNascimento,
+                Email = email,
+                Nome = nome,
+                Senha = senha,
+                Sexo = sexo
+            };
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
@@ -26,13 +34,13 @@ namespace CleanArchitecture.Infrastructure.Persistence.Repositories
         }
         public IEnumerable<Usuario> GetAllUsers()
         {
-            var users = _dbContext.Users.ToList();
+            var users = _dbContext.Users.AsNoTracking().ToList();
 
             return users;
         }
         public Usuario GetById(long id)
         {
-            var user = _dbContext.Users.Where(s => s.UsuarioId == id).FirstOrDefault();
+            var user = _dbContext.Users.AsNoTracking().Where(s => s.UsuarioId == id).FirstOrDefault();
 
             return user;
         }
@@ -40,18 +48,16 @@ namespace CleanArchitecture.Infrastructure.Persistence.Repositories
         {
             var user = _dbContext.Users.Where(s => s.UsuarioId == id).FirstOrDefault();
 
-            user.Email = email;
-            user.Nome = nome;
-            user.Senha = senha;
+            var dadosASeremAtualizados = new { Email = email, Nome = nome, Senha = senha };
 
-            _dbContext.Users.Update(user);
+            _dbContext.Entry(user).CurrentValues.SetValues(dadosASeremAtualizados);
             _dbContext.SaveChanges();
 
             return user;
         }
         public void DeleteById(long id)
         {
-            var user = _dbContext.Users.Where(s => s.UsuarioId == id).FirstOrDefault();
+            var user = _dbContext.Users.AsNoTracking().Where(s => s.UsuarioId == id).FirstOrDefault();
 
             _dbContext.Users.Remove(user);
             _dbContext.SaveChangesAsync();
