@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.API.Controllers.Base;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Annotations;
+using CleanArchitecture.API.Controllers.Base;
 using CleanArchitecture.Application.Interfaces;
 using CleanArchitecture.Application.Requests;
 using CleanArchitecture.Application.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Collections.Generic;
 
 namespace CleanArchitecture.API.Controllers.V1
 {
@@ -19,29 +19,29 @@ namespace CleanArchitecture.API.Controllers.V1
         }
 
         [HttpPost("users")]
-        [SwaggerOperation("Adicionar Cliente.")]
-        [SwaggerResponse(200, "Retorno de cliente cadastrado.", typeof(UserResponse))]
-        [SwaggerResponse(400, "Retorno de cliente não cadastrado.", null)]
+        [SwaggerOperation("Adiciona um cliente")]
+        [SwaggerResponse(200, "Retorno de cliente cadastrado", typeof(UserResponse))]
+        [SwaggerResponse(400, "Retorno de cliente não cadastrado", null)]
         public IActionResult Add([FromBody] AddUserRequest userRequest)
         {
             if (ModelState.IsValid)
             {
                 var user = _userService.Add(userRequest);
-                return Accepted(user);
+                return Ok(user);
             }
             else
                 return BadRequest();
         }
 
-        [HttpPut("users/{id:long}")]
-        [SwaggerOperation("Atualizar Cliente.")]
-        [SwaggerResponse(200, "Retorno de cliente atualizado.", typeof(UserResponse))]
+        [HttpPatch("users/{userId:long}")]
+        [SwaggerOperation("Atualiza dados básicos um cliente")]
+        [SwaggerResponse(200, "Retorno de cliente atualizado", typeof(UserResponse))]
         [SwaggerResponse(400, "Retorno de cliente não atualizado.", null)]
-        public IActionResult Update(long id, [FromBody] UpdateUserRequest userRequest)
+        public IActionResult Update(long userId, [FromBody] UpdateUserRequest userRequest)
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.Update(id, userRequest);
+                var user = _userService.Update(userId, userRequest);
                 return Accepted(user);
             }
             else
@@ -49,8 +49,8 @@ namespace CleanArchitecture.API.Controllers.V1
         }
 
         [HttpGet("users")]
-        [SwaggerOperation("Obter Clientes.")]
-        [SwaggerResponse(200, "Retorno de uma lista de clientes.", typeof(IEnumerable<UserResponse>))]
+        [SwaggerOperation("Recupera uma lista de clientes")]
+        [SwaggerResponse(200, "Retorno de uma lista de clientes", typeof(IEnumerable<UserResponse>))]
         [SwaggerResponse(404, type: null)]
         public IActionResult GetAll()
         {
@@ -62,13 +62,13 @@ namespace CleanArchitecture.API.Controllers.V1
                 return NotFound();
         }
 
-        [HttpGet("users/{id:long}")]
-        [SwaggerOperation("Obter Cliente.")]
-        [SwaggerResponse(200, "Retorno de um cliente.", typeof(UserResponse))]
+        [HttpGet("users/{userId:long}")]
+        [SwaggerOperation("Recupera um cliente pelo identificador")]
+        [SwaggerResponse(200, "Retorno de um cliente", typeof(UserResponse))]
         [SwaggerResponse(404, type: null)]
-        public IActionResult GetById(long id)
+        public IActionResult GetById(long userId)
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetById(userId);
 
             if (user is not null)
                 return Ok(user);
@@ -76,12 +76,12 @@ namespace CleanArchitecture.API.Controllers.V1
                 return NotFound();
         }
 
-        [HttpDelete("users/{id:long}")]
-        [SwaggerOperation("Deletar Cliente.")]
-        [SwaggerResponse(200, "Retorno de sucesso para remoção de um cliente.", null)]
-        public IActionResult DeleteById(long id)
+        [HttpDelete("users/{userId:long}")]
+        [SwaggerOperation("Exclui um cliente")]
+        [SwaggerResponse(200, "Retorno de sucesso para remoção de um cliente", null)]
+        public IActionResult DeleteById(long userId)
         {
-            _userService.DeleteById(id);
+            _userService.DeleteById(userId);
             return Ok();
         }
     }

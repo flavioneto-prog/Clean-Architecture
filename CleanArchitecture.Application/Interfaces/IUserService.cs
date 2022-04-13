@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Application.Requests;
+﻿using System.Collections.Generic;
+using CleanArchitecture.Application.Requests;
 using CleanArchitecture.Application.Responses;
-using System.Collections.Generic;
 
 namespace CleanArchitecture.Application.Interfaces
 {

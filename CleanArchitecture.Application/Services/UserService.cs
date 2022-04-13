@@ -1,10 +1,10 @@
-﻿using CleanArchitecture.Application.Interfaces;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using CleanArchitecture.Application.Requests;
 using CleanArchitecture.Application.Responses;
+using CleanArchitecture.Application.Interfaces;
 using CleanArchitecture.Core.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CleanArchitecture.Application.Services
 {

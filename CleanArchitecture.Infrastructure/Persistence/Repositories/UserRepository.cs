@@ -1,9 +1,9 @@
-﻿using CleanArchitecture.Core.Entities;
-using CleanArchitecture.Core.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using CleanArchitecture.Core.Entities;
+using CleanArchitecture.Core.Interfaces.Repositories;
 
 namespace CleanArchitecture.Infrastructure.Persistence.Repositories
 {

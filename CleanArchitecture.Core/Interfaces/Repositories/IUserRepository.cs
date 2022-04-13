@@ -1,6 +1,6 @@
-﻿using CleanArchitecture.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CleanArchitecture.Core.Entities;
 
 namespace CleanArchitecture.Core.Interfaces.Repositories
 {
