@@ -18,15 +18,7 @@ namespace CleanArchitecture.Infrastructure.Persistence.Repositories
 
         public Usuario Add(DateTime dataNascimento, string email, string nome, string senha, char sexo)
         {
-            var user = new Usuario
-            {
-                DataNascimento = dataNascimento,
-                Email = email,
-                Nome = nome,
-                Senha = senha,
-                Sexo = sexo
-            };
-
+            var user = new Usuario(dataNascimento, email, nome, senha, sexo);
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
 
